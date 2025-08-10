@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                    // JavaScript version to compile to
+    "module": "ESNext",                 // Module system
+    "jsx": "react-jsx",                 // Enables JSX syntax for React 17+
+    "strict": true,                     // Enable strict type-checking options
+    "moduleResolution": "node",         // Resolves modules in Node style
+    "esModuleInterop": true,            // Support default imports from CommonJS modules
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],              // Files to include in compilation
+  "exclude": ["node_modules"]           // Files/folders to exclude
+}

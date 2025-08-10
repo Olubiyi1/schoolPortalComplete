@@ -1,0 +1,32 @@
+:root{
+    --bgColor : black;
+    --color1 : white;
+    --font-size : 10px
+}
+.main{
+    background-color: var(--bgColor);
+    color: var(--color1);
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.schoolName{
+    display: flex;
+    font-size: var(--font-size);
+    border: 1px solid var(--color1);
+    align-items: center;
+}
+.schoolName img{
+    width: 30px;
+}
+
+.links{
+    border: 1px solid var(--color1);
+    display: flex;
+    /* padding: 30px; */
+    justify-content: space-between;
+    max-width: 300px;
+    padding-right: 30px;
+}

@@ -1,14 +1,15 @@
 import React from "react";
 import "./Header.css";
-import logo from "../../assets/react.svg";
-import {Button} from "../Props/ButtonProps/ButtonProps"
+import Button from "../ButtonProps/ButtonProps";
+import logo from "../../assets/images/logo (4).png"
 
 export const Header = () => {
+
   return (
     <div className="main">
       <div className="schoolName">
         <img src={logo} alt="logo" />
-        <h1>Government Technical College Ikorodu</h1>
+        <h1>Government Technical College <br /> Ikorodu</h1>
       </div>
 
       <div className="links">
@@ -18,8 +19,8 @@ export const Header = () => {
       </div>
 
       <div className="navs">
-        <Button children= "Student"/>
-        <Button children= "Staff"/>
+        <Button type="submit" className="btn" id="student" >Student</Button>
+        <Button type="reset" className="btn" id="staff" >Staff</Button>
       </div>
     </div>
   );

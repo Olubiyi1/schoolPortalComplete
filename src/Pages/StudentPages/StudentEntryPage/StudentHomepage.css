@@ -1,0 +1,48 @@
+:root {
+  --bgColor: black;
+  --color1: white;
+  --font-size: 12px;
+  --fontFamily1: "poppins";
+  --fontfamily2: "Inter";
+}
+.studentHero {
+  background-color: var(--color1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 0px auto;
+  align-items: center;
+  font-family: var(--fontfamily2);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-top: 20px;
+}
+.btnstd {
+  padding: 10px;
+  font-weight: 800;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  row-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stdbtn {
+  padding: 15px;
+  border-radius: 10px;
+  border: 0px;
+  background-color: var(--bgColor);
+  color: var(--color1);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+h1 {
+  letter-spacing: 3px;
+}
+
+.studentLogin {
+  background-color: var(--color1);
+  color: var(--bgColor);
+  border: 1.5px solid;
+  padding: 15px;
+}

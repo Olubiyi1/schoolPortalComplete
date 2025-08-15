@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css"
 import { Header } from "./Reuseable/Header/Header";
-import { Homepage } from "./Pages/Homepage";
+import { Homepage } from "./Pages/Homepage/Homepage";
+
 
 
 const App = ()=>{

@@ -11,7 +11,7 @@ type StudentProfile = {
   password: "";
 };
 
-export const SchoolPortalForm = () => {
+export const RegisterStudent = () => {
   // using just a single state to collect data
   const [formData, setFormdata] = useState<StudentProfile>({
     firstName: "",

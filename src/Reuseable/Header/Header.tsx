@@ -4,15 +4,7 @@ import Button from "../ButtonProps/ButtonProps";
 import logo from "../../assets/images/logo (4).png"
 
 export const Header = () => {
-  type Person = {
-    name: string,
-    age : number
-  }
 
-  const [person, setPerson] = useState<Person>({
-    name: "",
-    age : 0
-  })
   return (
     <div className="main">
       <div className="schoolName">

@@ -11,8 +11,9 @@ export const StudentHero = () => {
         <div className="studentImg">
           <img src={StudentImg} alt="heroImage" id="heroImg" />
         </div>
-        <h1>Student hub.</h1>
+        
         <div className="btnstd">
+          <h1>Step inside.</h1>
           <Button type="submit" className="studentLogin stdbtn">
             Login
           </Button>

@@ -9,14 +9,14 @@
   background-color: var(--color1);
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  width: 400px;
-  margin: 0px auto;
+  width:max-content;
+  justify-content: center;
   align-items: center;
   font-family: var(--fontfamily2);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  margin-top: 20px;
-  /* height: 100vh; */
+  margin: auto;
+  margin-top: 20px
+  
 }
 
 #arrow{
@@ -33,16 +33,18 @@
 .btnstd {
   padding: 10px;
   font-weight: 800;
-  border: none;
   display: flex;
   flex-direction: column;
   width: 250px;
   row-gap: 10px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
+  margin: 30px
+  
 }
 
 #heroImg{
-    max-width: 100%;
+    /* max-width: 100%; */
+    width: 400px;
 }
 
 .stdbtn {
@@ -53,10 +55,13 @@
   color: var(--color1);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   font-weight: 600;
+
 }
 .studentHero h1 {
   letter-spacing: 3px;
-  border-top: 2px solid;
+text-shadow: 1px 0px 1px rgba(232,38,38,0.6);
+  
+  /* border-bottom: 2px solid; */
 }
 
 .studentLogin {
@@ -64,4 +69,9 @@
   color: var(--bgColor);
   border: 1.5px solid;
   padding: 15px;
+}
+
+.studentSignup{
+  border: 1.5px solid;
+
 }

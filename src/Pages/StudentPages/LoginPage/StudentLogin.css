@@ -34,6 +34,7 @@
 }
 input{
     border: none;
+    cursor: pointer;
     padding: 10px;
     display: block;
     border: 1.5px solid;
@@ -65,8 +66,8 @@ input:nth-child(1){
 
 #loginButton{
     background-color: var(--bgColor);
+    cursor: pointer;
   color: var(--color1);
-  /* border: none; */
   padding: 15px;
   width: 250px;
   border-radius: 10px;
@@ -74,6 +75,4 @@ input:nth-child(1){
   font-weight: 600;
   border: 1.5px solid;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-
-
 }

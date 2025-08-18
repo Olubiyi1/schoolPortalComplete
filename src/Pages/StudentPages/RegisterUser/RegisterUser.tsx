@@ -9,6 +9,7 @@ type StudentProfile = {
   email: string;
   department: Department;
   password: "";
+  confirmPassword: ""
 };
 
 export const RegisterStudent = () => {
@@ -20,6 +21,7 @@ export const RegisterStudent = () => {
     email: "",
     department: "RAC", //default value
     password: "",
+    confirmPassword: ""
   });
 
   //   to map the department array
@@ -42,19 +44,25 @@ export const RegisterStudent = () => {
   const handleSUbmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, surname, username, email, password } = formData;
+    const { firstName, surname, username, email, password, confirmPassword } = formData;
 
     if (
       !firstName.trim() ||
       !surname.trim() ||
       !username.trim() ||
       !email.trim() ||
-      !password.trim()
+      !password.trim() ||
+      !confirmPassword.trim()
     ) {
       alert("please fill all fields");
 
       return;
     }
+
+    if(confirmPassword !== password){
+      alert("password doesn't match")
+    }
+
       setFormdata({
     firstName: "",
     surname: "",
@@ -62,6 +70,7 @@ export const RegisterStudent = () => {
     email: "",
     department: "Electronics Works",
     password: "",
+    confirmPassword: ""
   });
 
    console.log("form submitted", formData);
@@ -123,6 +132,14 @@ export const RegisterStudent = () => {
           name="password"
           placeholder="Enter password"
           value={formData.password}
+          onChange={handleChange}
+        />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm password"
+          value={formData.confirmPassword}
           onChange={handleChange}
         />
 

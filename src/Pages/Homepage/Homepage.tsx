@@ -6,9 +6,8 @@ import { StudentLogin } from "../StudentPages/LoginPage/StudentLogin"
 export const Homepage = ()=>{
     return (
         <div>
-          
-          {/* <img src={img} alt="img" /> */}
-          {/* <RegisterStudent/> */}
+  
+          <RegisterStudent/>
           <StudentHero/>
           <StudentLogin/>
         </div>

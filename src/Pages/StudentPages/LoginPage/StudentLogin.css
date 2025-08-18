@@ -1,0 +1,79 @@
+:root {
+  --bgColor: black;
+  --color1: white;
+  --font-size: 12px;
+  --fontFamily1: "poppins";
+  --fontfamily2: "Inter";
+}
+
+.login{
+    background-color: var(--color1);
+    display: flex;
+      width:max-content;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--fontfamily2);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: auto;
+  margin-top: 20px
+}
+
+.formDetails{
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 70px;
+    width: 300px;
+    /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+}
+
+.formDetails h1{
+    text-shadow: 1px 0px 1px rgba(232,38,38,0.6);
+}
+input{
+    border: none;
+    padding: 10px;
+    display: block;
+    border: 1.5px solid;
+    width: 250px;
+    border-radius:10px;
+    font-family: var(--fontFamily1);
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
+input:focus{
+    outline: none;
+    background-color: var(--bgColor);
+    color: var(--color1);
+}
+
+input:nth-child(2){
+    margin: 10px 0px;
+    
+}
+input:nth-child(1){
+    margin-top: 10px;
+    
+}
+
+#loginImg{
+    width: 400px;
+}
+
+#loginButton{
+    background-color: var(--bgColor);
+  color: var(--color1);
+  /* border: none; */
+  padding: 15px;
+  width: 250px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border: 1.5px solid;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+
+}

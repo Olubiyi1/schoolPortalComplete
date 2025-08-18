@@ -63,13 +63,10 @@ export const RegisterStudent = () => {
     department: "Electronics Works",
     password: "",
   });
-  };
 
-  console.log("form submitted", formData);
+   console.log("form submitted", formData);
   alert("student data ready for processing");
-
-  //   clear form
-
+  };
 
 
   return (

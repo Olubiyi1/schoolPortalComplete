@@ -9,7 +9,7 @@ type StudentProfile = {
   email: string;
   department: Department;
   password: "";
-  confirmPassword: ""
+  confirmPassword: "";
 };
 
 export const RegisterStudent = () => {
@@ -21,7 +21,7 @@ export const RegisterStudent = () => {
     email: "",
     department: "RAC", //default value
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   //   to map the department array
@@ -44,7 +44,8 @@ export const RegisterStudent = () => {
   const handleSUbmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, surname, username, email, password, confirmPassword } = formData;
+    const { firstName, surname, username, email, password, confirmPassword } =
+      formData;
 
     if (
       !firstName.trim() ||
@@ -59,47 +60,50 @@ export const RegisterStudent = () => {
       return;
     }
 
-    if(confirmPassword !== password){
-      alert("password doesn't match")
+    if (confirmPassword !== password) {
+      alert("password doesn't match");
     }
 
-      setFormdata({
-    firstName: "",
-    surname: "",
-    username: "",
-    email: "",
-    department: "Electronics Works",
-    password: "",
-    confirmPassword: ""
-  });
+    setFormdata({
+      firstName: "",
+      surname: "",
+      username: "",
+      email: "",
+      department: "Electronics Works",
+      password: "",
+      confirmPassword: "",
+    });
 
-   console.log("form submitted", formData);
-  alert("student data ready for processing");
+    console.log("form submitted", formData);
+    alert("student data ready for processing");
   };
-
 
   return (
     <div className="form">
       <h1>Registration</h1>
 
       <form action="" onSubmit={handleSUbmit} className="formInfo">
+        <label htmlFor="firstname">First name</label>
         <input
+          id="firstname"
           type="text"
           name="firstName"
           placeholder="Enter first name"
           value={formData.firstName}
           onChange={handleChange}
         />
-
+        <label htmlFor="surname">Surname</label>
         <input
+          id="surname"
           type="text"
           name="surname"
           placeholder="Enter surname"
           value={formData.surname}
           onChange={handleChange}
         />
-
+        <label htmlFor="department">Select department</label> <br />
         <select
+          id="department"
           name="department"
           value={formData.department}
           onChange={handleChange}
@@ -110,39 +114,43 @@ export const RegisterStudent = () => {
             </option>
           ))}
         </select>
-
+        <br />
+        <label htmlFor="username">Username</label>
         <input
+          id="username"
           type="text"
           name="username"
           placeholder="Enter username"
           value={formData.username}
           onChange={handleChange}
         />
-
+        <label htmlFor="email">Email</label>
         <input
+          id="email"
           type="text"
           name="email"
           placeholder="Enter email"
           value={formData.email}
           onChange={handleChange}
         />
-
+        <label htmlFor="password">Password</label>
         <input
+          id="password"
           type="password"
           name="password"
           placeholder="Enter password"
           value={formData.password}
           onChange={handleChange}
         />
-
+        <label htmlFor="confirmPassword">Confirm Password</label>
         <input
+          id="confirmPassword"
           type="password"
           name="confirmPassword"
           placeholder="Confirm password"
           value={formData.confirmPassword}
           onChange={handleChange}
         />
-
         <button type="submit">Register</button>
       </form>
     </div>

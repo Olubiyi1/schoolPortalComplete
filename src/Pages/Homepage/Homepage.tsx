@@ -1,15 +1,9 @@
-// import { Header } from "../Reuseable/Header";
-import { RegisterStudent } from "../StudentPages/RegisterUser/RegisterUser"
-import { StudentHero } from "../StudentPages/StudentEntryPage/StudentHomepage"
-import { StudentLogin } from "../StudentPages/LoginPage/StudentLogin"
+import underconstruction from "../../assets/images/img.jpg";
 
-export const Homepage = ()=>{
-    return (
-        <div>
-  
-          <RegisterStudent/>
-          <StudentHero/>
-          <StudentLogin/>
-        </div>
-    )
-}
+export const Homepage = () => {
+  return (
+    <div>
+      <img src={underconstruction} alt="" />
+    </div>
+  );
+};

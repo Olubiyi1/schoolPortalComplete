@@ -25,13 +25,12 @@
   align-items: center;
   margin-right: 50px;
   width: 300px;
-  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
 }
 
 .formDetails h1 {
   text-shadow: 1px 0px 1px rgba(232, 38, 38, 0.6);
 }
-input {
+.formDetails input {
   border: none;
   cursor: pointer;
   padding: 10px;
@@ -43,16 +42,16 @@ input {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-input:focus {
+.formDetails input:focus {
   outline: none;
   background-color: var(--bgColor);
   color: var(--color1);
 }
 
-input:nth-child(2) {
+.formDetails input:nth-child(2) {
   margin: 10px 0px;
 }
-input:nth-child(1) {
+.formDetails input:nth-child(1) {
   margin-top: 10px;
 }
 

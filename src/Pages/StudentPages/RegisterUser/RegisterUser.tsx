@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import studentHeroImg from "../../../assets/images/studentHeroImg.png";
+import "./Register.css"
+
 
 type Department = "Electronics Works" | "RAC";
 
@@ -79,80 +82,93 @@ export const RegisterStudent = () => {
   };
 
   return (
-    <div className="form">
-      <h1>Registration</h1>
+    <div className="form-container">
 
-      <form action="" onSubmit={handleSUbmit} className="formInfo">
-        <label htmlFor="firstname">First name</label>
-        <input
-          id="firstname"
-          type="text"
-          name="firstName"
-          placeholder="Enter first name"
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-        <label htmlFor="surname">Surname</label>
-        <input
-          id="surname"
-          type="text"
-          name="surname"
-          placeholder="Enter surname"
-          value={formData.surname}
-          onChange={handleChange}
-        />
-        <label htmlFor="department">Select department</label> <br />
-        <select
-          id="department"
-          name="department"
-          value={formData.department}
-          onChange={handleChange}
-        >
-          {departments.map((dep) => (
-            <option key={dep} value={dep}>
-              {dep}
-            </option>
-          ))}
-        </select>
-        <br />
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          name="username"
-          placeholder="Enter username"
-          value={formData.username}
-          onChange={handleChange}
-        />
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="text"
-          name="email"
-          placeholder="Enter email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          name="password"
-          placeholder="Enter password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        <button type="submit">Register</button>
-      </form>
+      <img src={studentHeroImg} alt="img" />
+
+      <div className="form">
+
+        <h1>Begin Journey</h1>
+
+        <form action="" onSubmit={handleSUbmit} className="formInfo">
+
+          <label htmlFor="firstname">First name</label>
+          <input
+            id="firstname"
+            type="text"
+            name="firstName"
+            placeholder="Enter first name"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="surname">Surname</label>
+          <input
+            id="surname"
+            type="text"
+            name="surname"
+            placeholder="Enter surname"
+            value={formData.surname}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="department">Select department</label> 
+          <select
+            id="department"
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+          >
+            {departments.map((dep) => (
+              <option key={dep} value={dep}>
+                {dep}
+              </option>
+            ))}
+          </select>
+          
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="text"
+            name="email"
+            placeholder="Enter email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirm password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+
+          <button type="submit">Register</button>
+        </form>
+      </div>
     </div>
   );
 };

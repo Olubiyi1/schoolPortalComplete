@@ -71,6 +71,7 @@
     font-weight: bold;
     color: rgb(58, 57, 57);
     border: 1.5px solid;
+    cursor: pointer;
 }
 
 .form button{

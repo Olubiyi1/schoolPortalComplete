@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
-import "./Register.css"
-
+import "./Register.css";
 
 type Department = "Electronics Works" | "RAC";
 
-type StudentProfile = {
+type StudentFormData = {
   firstName: string;
   surname: string;
   username: string;
   email: string;
   department: Department;
-  password: "";
-  confirmPassword: "";
+  password: string;
+  confirmPassword: string;
 };
+
+type Errors = {
+  firstName: string;
+  surname: string;
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export const RegisterStudent = () => {
   // using just a single state to collect data
-  const [formData, setFormdata] = useState<StudentProfile>({
+  const [formData, setFormdata] = useState<StudentFormData>({
     firstName: "",
     surname: "",
     username: "",
@@ -27,8 +35,18 @@ export const RegisterStudent = () => {
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState<Errors>({
+    firstName: "",
+    surname: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   //   to map the department array
   const departments: Department[] = ["Electronics Works", "RAC"];
+
 
   // handle input/select changes
 
@@ -44,29 +62,67 @@ export const RegisterStudent = () => {
 
   // handle form submission
 
-  const handleSUbmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { firstName, surname, username, email, password, confirmPassword } =
       formData;
 
-    if (
-      !firstName.trim() ||
-      !surname.trim() ||
-      !username.trim() ||
-      !email.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim()
-    ) {
-      alert("please fill all fields");
+    let newErrors: Errors = {
+      firstName: "",
+      surname: "",
+      username: ",",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
 
-      return;
+    // validation checks
+
+    if (!firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    }
+    if (!surname.trim()) {
+      newErrors.surname = "Surname is required";
+    }
+    if (!username.trim()) {
+      newErrors.username = "Username is required";
+    }
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    }
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 8){
+      newErrors.password = "Password must be more than 8 characters"
     }
 
-    if (confirmPassword !== password) {
-      alert("password doesn't match");
+    if (!confirmPassword.trim()) {
+      newErrors.confirmPassword = "Confirm password is required";
+    }else if (confirmPassword !== password){
+      newErrors.confirmPassword = "Password does not match"
     }
 
+    setErrors(newErrors)
+
+  // Stop if any error message exists
+  if (
+    newErrors.firstName ||
+    newErrors.surname ||
+    newErrors.username ||
+    newErrors.email ||
+    newErrors.password ||
+    newErrors.confirmPassword
+  ) {
+
+    return;
+
+  }
+  console.log("form submitted", formData);
+
+    }
+
+    // reset form data
     setFormdata({
       firstName: "",
       surname: "",
@@ -77,21 +133,16 @@ export const RegisterStudent = () => {
       confirmPassword: "",
     });
 
-    console.log("form submitted", formData);
-    alert("student data ready for processing");
-  };
+  
 
   return (
     <div className="form-container">
-
       <img src={studentHeroImg} alt="img" />
 
       <div className="form">
-
         <h1>Begin Journey</h1>
 
-        <form action="" onSubmit={handleSUbmit} className="formInfo">
-
+        <form action="" onSubmit={handleSubmit} className="formInfo">
           <label htmlFor="firstname">First name</label>
           <input
             id="firstname"
@@ -101,6 +152,7 @@ export const RegisterStudent = () => {
             value={formData.firstName}
             onChange={handleChange}
           />
+          {errors.firstName && <p className="error">{errors.firstName}</p>}
 
           <label htmlFor="surname">Surname</label>
           <input
@@ -111,8 +163,9 @@ export const RegisterStudent = () => {
             value={formData.surname}
             onChange={handleChange}
           />
+          {errors.surname && <p className="error">{errors.surname}</p>}
 
-          <label htmlFor="department">Select department</label> 
+          <label htmlFor="department">Select department</label>
           <select
             id="department"
             name="department"
@@ -125,7 +178,7 @@ export const RegisterStudent = () => {
               </option>
             ))}
           </select>
-          
+
           <label htmlFor="username">Username</label>
           <input
             id="username"
@@ -135,6 +188,7 @@ export const RegisterStudent = () => {
             value={formData.username}
             onChange={handleChange}
           />
+          {errors.username && <p className="error">{errors.username}</p>}
 
           <label htmlFor="email">Email</label>
           <input
@@ -145,6 +199,7 @@ export const RegisterStudent = () => {
             value={formData.email}
             onChange={handleChange}
           />
+          {errors.email && <p className="error">{errors.email}</p>}
 
           <label htmlFor="password">Password</label>
           <input
@@ -155,6 +210,7 @@ export const RegisterStudent = () => {
             value={formData.password}
             onChange={handleChange}
           />
+          {errors.password && <p className="error">{errors.password}</p>}
 
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
@@ -165,6 +221,7 @@ export const RegisterStudent = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
           />
+          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
 
           <button type="submit">Register</button>
         </form>

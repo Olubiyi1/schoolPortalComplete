@@ -50,15 +50,13 @@ export const RegisterStudent = () => {
 
   // handle input/select changes
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
+  const handleChange = ((  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
+const { name, value } = e.target;
     setFormdata((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  })
 
   // handle form submission
 
@@ -118,11 +116,10 @@ export const RegisterStudent = () => {
     return;
 
   }
-  console.log("form submitted", formData);
+    console.log("form submitted", formData);
+    alert("form submitted")
+      // reset form data
 
-    }
-
-    // reset form data
     setFormdata({
       firstName: "",
       surname: "",
@@ -133,6 +130,9 @@ export const RegisterStudent = () => {
       confirmPassword: "",
     });
 
+    };
+
+  
   
 
   return (

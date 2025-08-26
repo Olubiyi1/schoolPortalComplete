@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import "./Register.css";
+import { registerUser } from "../../../Services/Api";
+import { log } from "node:console";
 
 type Department = "Electronics Works" | "RAC";
 
@@ -21,7 +23,7 @@ type Errors = {
   email: string;
   password: string;
   confirmPassword: string;
-}
+};
 
 export const RegisterStudent = () => {
   // using just a single state to collect data
@@ -44,23 +46,25 @@ export const RegisterStudent = () => {
     confirmPassword: "",
   });
 
-  //   to map the department array
+  //   to map the department array since i am not hardcoding and just want to map
   const departments: Department[] = ["Electronics Works", "RAC"];
 
+  // handle input/select changes since i am using a single useState
+  // wouldnt have needed this if it had been individual useState for each input, the function would be inside the input
 
-  // handle input/select changes
-
-  const handleChange = ((  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
-const { name, value } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
     setFormdata((prev) => ({
       ...prev,
       [name]: value,
     }));
-  })
+  };
 
   // handle form submission
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const { firstName, surname, username, email, password, confirmPassword } =
@@ -69,7 +73,7 @@ const { name, value } = e.target;
     let newErrors: Errors = {
       firstName: "",
       surname: "",
-      username: ",",
+      username: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -86,54 +90,73 @@ const { name, value } = e.target;
     if (!username.trim()) {
       newErrors.username = "Username is required";
     }
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    }
+
+ // Check if email is empty
+if (!email.trim()) {
+  newErrors.email = "Email is required";
+}
+// Check if email has a valid format: something@something.something
+// \S+ = one or more non-space characters
+// @   = must have an @ symbol
+// \.  = literal dot
+// \S+ = one or more non-space characters after the dot
+else if (!/\S+@\S+\.\S+/.test(email)) {
+  newErrors.email = "Enter a valid email";
+}
+
+
     if (!password.trim()) {
       newErrors.password = "Password is required";
-    } else if (password.length < 8){
-      newErrors.password = "Password must be more than 8 characters"
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be more than 8 characters";
     }
 
     if (!confirmPassword.trim()) {
       newErrors.confirmPassword = "Confirm password is required";
-    }else if (confirmPassword !== password){
-      newErrors.confirmPassword = "Password does not match"
+    } else if (confirmPassword !== password) {
+      newErrors.confirmPassword = "Password does not match";
     }
 
-    setErrors(newErrors)
+    setErrors(newErrors);
 
-  // Stop if any error message exists
-  if (
-    newErrors.firstName ||
-    newErrors.surname ||
-    newErrors.username ||
-    newErrors.email ||
-    newErrors.password ||
-    newErrors.confirmPassword
-  ) {
+    // Stop if any error message exists
+    if (
+      newErrors.firstName ||
+      newErrors.surname ||
+      newErrors.username ||
+      newErrors.email ||
+      newErrors.password ||
+      newErrors.confirmPassword
+    ) {
+      return;
+    }
 
-    return;
+    // API call
+    try {
+      const response = await registerUser(formData);
+      console.log(response);
+      alert("form submitted successfully");
 
-  }
-    console.log("form submitted", formData);
-    alert("form submitted")
-      // reset form data
+      // reset form data if onyl signup is successful
+      setFormdata({
+        firstName: "",
+        surname: "",
+        username: "",
+        email: "",
+        department: "Electronics Works",
+        password: "",
+        confirmPassword: "",
+      });
 
-    setFormdata({
-      firstName: "",
-      surname: "",
-      username: "",
-      email: "",
-      department: "Electronics Works",
-      password: "",
-      confirmPassword: "",
-    });
-
-    };
-
-  
-  
+      // send backed error message
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    }
+  };
 
   return (
     <div className="form-container">
@@ -221,7 +244,9 @@ const { name, value } = e.target;
             value={formData.confirmPassword}
             onChange={handleChange}
           />
-          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="error">{errors.confirmPassword}</p>
+          )}
 
           <button type="submit">Register</button>
         </form>

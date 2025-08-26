@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import Button from "../../../Reuseable/ButtonProps/ButtonProps";
 import "./StudentLogin.css";
+import { loginUser } from "../../../Services/Api";
 
 type LoginData = {
   email: string;
@@ -32,7 +33,7 @@ export const StudentLogin = () => {
   };
 
   //   handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password } = formData;
 
@@ -58,14 +59,28 @@ export const StudentLogin = () => {
       return;
     }
 
+    try {
+      const response = await loginUser(formData);
+      console.log("Login succesful", response);
+      alert("Login successful");
+
+      // set the form back to empty. the form resets only if login is successful
+      setFormData({
+        email: "",
+        password: "",
+      });
+
+      // sends backend error message if any in the if statement
+    } catch (error: any) {
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("Login failed. Please try again.");
+      }
+    }
+
     console.log("login successful", formData);
     //   alert("login successful");
-
-    // set the form back to empty
-    setFormData({
-      email: "",
-      password: "",
-    });
   };
 
   return (
@@ -85,6 +100,7 @@ export const StudentLogin = () => {
               onChange={handleChange}
             />
             {errors.email && <p className="error">{errors.email}</p>}
+
             <input
               type="password"
               name="password"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import Button from "../../../Reuseable/ButtonProps/ButtonProps";
 import "./StudentLogin.css";
@@ -58,6 +58,7 @@ export const StudentLogin = () => {
     if (newErrors.email || newErrors.password) {
       return;
     }
+   
 
     try {
       const response = await loginUser(formData);
@@ -79,8 +80,11 @@ export const StudentLogin = () => {
       }
     }
 
+  
+
     console.log("login successful", formData);
     //   alert("login successful");
+
   };
 
   return (

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import "./Register.css";
 import { registerUser } from "../../../Services/Api";
-import { log } from "node:console";
 
 type Department = "Electronics Works" | "RAC";
 
@@ -37,6 +36,7 @@ export const RegisterStudent = () => {
     confirmPassword: "",
   });
 
+  // this sets the error messages
   const [errors, setErrors] = useState<Errors>({
     firstName: "",
     surname: "",
@@ -45,6 +45,12 @@ export const RegisterStudent = () => {
     password: "",
     confirmPassword: "",
   });
+
+  // this confirms form submission
+  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+
+  // this changes button state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   //   to map the department array since i am not hardcoding and just want to map
   const departments: Department[] = ["Electronics Works", "RAC"];
@@ -91,19 +97,18 @@ export const RegisterStudent = () => {
       newErrors.username = "Username is required";
     }
 
- // Check if email is empty
-if (!email.trim()) {
-  newErrors.email = "Email is required";
-}
-// Check if email has a valid format: something@something.something
-// \S+ = one or more non-space characters
-// @   = must have an @ symbol
-// \.  = literal dot
-// \S+ = one or more non-space characters after the dot
-else if (!/\S+@\S+\.\S+/.test(email)) {
-  newErrors.email = "Enter a valid email";
-}
-
+    // Check if email is empty
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+    }
+    // Check if email has a valid format: something@something.something
+    // \S+ = one or more non-space characters
+    // @   = must have an @ symbol
+    // \.  = literal dot
+    // \S+ = one or more non-space characters after the dot
+    else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Enter a valid email";
+    }
 
     if (!password.trim()) {
       newErrors.password = "Password is required";
@@ -133,11 +138,15 @@ else if (!/\S+@\S+\.\S+/.test(email)) {
 
     // API call
     try {
-      const response = await registerUser(formData);
-      console.log(response);
-      alert("form submitted successfully");
+      setIsLoading(true);
+      // const response = await registerUser(formData);
+      // console.log(response);
 
-      // reset form data if onyl signup is successful
+      console.log("Simulating successful registration");
+
+      setIsRegistered(true);
+
+      // reset form data if only signup is successful
       setFormdata({
         firstName: "",
         surname: "",
@@ -155,6 +164,10 @@ else if (!/\S+@\S+\.\S+/.test(email)) {
       } else {
         alert("Something went wrong. Please try again.");
       }
+
+      // stops loading whether success or error
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -163,93 +176,109 @@ else if (!/\S+@\S+\.\S+/.test(email)) {
       <img src={studentHeroImg} alt="img" />
 
       <div className="form">
-        <h1>Begin Journey</h1>
+        {!isRegistered ? (
+          <>
+            <h1>Begin Journey</h1>
 
-        <form action="" onSubmit={handleSubmit} className="formInfo">
-          <label htmlFor="firstname">First name</label>
-          <input
-            id="firstname"
-            type="text"
-            name="firstName"
-            placeholder="Enter first name"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-          {errors.firstName && <p className="error">{errors.firstName}</p>}
+            <form action="" onSubmit={handleSubmit} className="formInfo">
+              <label htmlFor="firstname">First name</label>
+              <input
+                id="firstname"
+                type="text"
+                name="firstName"
+                placeholder="Enter first name"
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+              {errors.firstName && <p className="error">{errors.firstName}</p>}
 
-          <label htmlFor="surname">Surname</label>
-          <input
-            id="surname"
-            type="text"
-            name="surname"
-            placeholder="Enter surname"
-            value={formData.surname}
-            onChange={handleChange}
-          />
-          {errors.surname && <p className="error">{errors.surname}</p>}
+              <label htmlFor="surname">Surname</label>
+              <input
+                id="surname"
+                type="text"
+                name="surname"
+                placeholder="Enter surname"
+                value={formData.surname}
+                onChange={handleChange}
+              />
+              {errors.surname && <p className="error">{errors.surname}</p>}
 
-          <label htmlFor="department">Select department</label>
-          <select
-            id="department"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-          >
-            {departments.map((dep) => (
-              <option key={dep} value={dep}>
-                {dep}
-              </option>
-            ))}
-          </select>
+              <label htmlFor="department">Select department</label>
+              <select
+                id="department"
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+              >
+                {departments.map((dep) => (
+                  <option key={dep} value={dep}>
+                    {dep}
+                  </option>
+                ))}
+              </select>
 
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            placeholder="Enter username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          {errors.username && <p className="error">{errors.username}</p>}
+              <label htmlFor="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                placeholder="Enter username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              {errors.username && <p className="error">{errors.username}</p>}
 
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="text"
-            name="email"
-            placeholder="Enter email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          {errors.email && <p className="error">{errors.email}</p>}
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="text"
+                name="email"
+                placeholder="Enter email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && <p className="error">{errors.email}</p>}
 
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          {errors.password && <p className="error">{errors.password}</p>}
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+              {errors.password && <p className="error">{errors.password}</p>}
 
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
-          {errors.confirmPassword && (
-            <p className="error">{errors.confirmPassword}</p>
-          )}
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+              />
+              {errors.confirmPassword && (
+                <p className="error">{errors.confirmPassword}</p>
+              )}
 
-          <button type="submit">Register</button>
-        </form>
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? "Registering ..." : "Register"}
+              </button>
+            </form>
+          </>
+        ) : (
+          <div className="success-message">
+            <h1>Registration Successful!</h1>
+            <p>
+              We've sent a verification email to:
+              <strong>{formData.email}</strong>
+            </p>
+            <p>Please check your inbox (and spam folder) for next steps.</p>
+            <p>The email might take a few minutes to arrive.</p>
+          </div>
+        )}
       </div>
     </div>
   );

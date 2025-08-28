@@ -46,7 +46,7 @@ export const RegisterStudent = () => {
     confirmPassword: "",
   });
 
-  // this confirms form submission
+  // this confirms form submission and changes the display
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
 
   // this changes button state
@@ -138,7 +138,10 @@ export const RegisterStudent = () => {
 
     // API call
     try {
+      // User clicks the button.This is set on the button
       setIsLoading(true);
+
+      // calls the API
       // const response = await registerUser(formData);
       // console.log(response);
 

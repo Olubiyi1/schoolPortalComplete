@@ -3,6 +3,7 @@ import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import Button from "../../../Reuseable/ButtonProps/ButtonProps";
 import "./StudentLogin.css";
 import { loginUser } from "../../../Services/Api";
+import { useNavigate } from "react-router";
 
 type LoginData = {
   email: string;
@@ -23,6 +24,8 @@ export const StudentLogin = () => {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -50,6 +53,9 @@ export const StudentLogin = () => {
     if (!password.trim()) {
       newErrors.password = "Password field cannot be left blank";
     }
+    if(password.length < 8){
+      newErrors.password = "Password is incorrect"
+    }
 
     setErrors(newErrors);
 
@@ -58,12 +64,13 @@ export const StudentLogin = () => {
     if (newErrors.email || newErrors.password) {
       return;
     }
-   
 
     try {
       const response = await loginUser(formData);
       console.log("Login succesful", response);
-      alert("Login successful");
+      // alert("Login successful");
+
+      navigate("/dashboard");
 
       // set the form back to empty. the form resets only if login is successful
       setFormData({
@@ -80,11 +87,8 @@ export const StudentLogin = () => {
       }
     }
 
-  
-
     console.log("login successful", formData);
     //   alert("login successful");
-
   };
 
   return (

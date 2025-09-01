@@ -1,0 +1,30 @@
+.dashboard-nav {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.nav-btn {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.nav-btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.section-content {
+  margin-top: 20px;
+}

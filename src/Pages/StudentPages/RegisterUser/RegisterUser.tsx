@@ -10,7 +10,7 @@ type StudentFormData = {
   surname: string;
   username: string;
   email: string;
-  department: Department;
+  department: string;
   password: string;
   confirmPassword: string;
 };
@@ -21,6 +21,7 @@ type Errors = {
   username: string;
   email: string;
   password: string;
+  department: string;
   confirmPassword: string;
 };
 
@@ -31,7 +32,7 @@ export const RegisterStudent = () => {
     surname: "",
     username: "",
     email: "",
-    department: "RAC", //default value
+    department: "",
     password: "",
     confirmPassword: "",
   });
@@ -43,6 +44,7 @@ export const RegisterStudent = () => {
     username: "",
     email: "",
     password: "",
+    department: "",
     confirmPassword: "",
   });
 
@@ -82,6 +84,7 @@ export const RegisterStudent = () => {
       username: "",
       email: "",
       password: "",
+      department:"",
       confirmPassword: "",
     };
 
@@ -121,6 +124,9 @@ export const RegisterStudent = () => {
     } else if (confirmPassword !== password) {
       newErrors.confirmPassword = "Password does not match";
     }
+    if(!formData.department){
+      newErrors.department = "Please select a department"
+    }
 
     setErrors(newErrors);
 
@@ -131,7 +137,8 @@ export const RegisterStudent = () => {
       newErrors.username ||
       newErrors.email ||
       newErrors.password ||
-      newErrors.confirmPassword
+      newErrors.confirmPassword ||
+      newErrors.department
     ) {
       return;
     }
@@ -155,7 +162,7 @@ export const RegisterStudent = () => {
         surname: "",
         username: "",
         email: "",
-        department: "Electronics Works",
+        department: "",
         password: "",
         confirmPassword: "",
       });
@@ -213,12 +220,14 @@ export const RegisterStudent = () => {
                 value={formData.department}
                 onChange={handleChange}
               >
+                <option value="">--Select--</option>
                 {departments.map((dep) => (
                   <option key={dep} value={dep}>
                     {dep}
                   </option>
                 ))}
               </select>
+              {errors.department && <p className="error">{errors.department}</p>}
 
               <label htmlFor="username">Username</label>
               <input

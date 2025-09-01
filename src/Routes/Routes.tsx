@@ -11,8 +11,7 @@ import { Dashboard } from "../Pages/StudentPages/Dashboard/StudentDashboard"
 
 export const router = createBrowserRouter([
     {
-        path:"/",
-        element:<App/>,
+        path:"/",element:<App/>,
         children:[
             {path:"", element:<Homepage/>},
             {path:"studentHomepage", element:<StudentHero/>},

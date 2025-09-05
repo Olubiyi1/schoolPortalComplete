@@ -13,8 +13,8 @@
   align-items: center;
   font-family: var(--fontfamily2);
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  margin: auto;
-  margin-top: 20px;
+  margin: auto ;
+  margin-top: 50px;
 }
 
 #arrow:hover,.stdbtn{
@@ -25,7 +25,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 50px;
   width: 300px;
   gap: 10px;
 
@@ -64,5 +63,29 @@ text-shadow: 1px 0px 1px rgba(232,38,38,0.6);
 .studentSignup{
   border: 1.5px solid;
   margin-bottom: 20px;
+
+}
+
+/* media query */
+@media screen and (max-width: 860px) {
+  .studentHero{
+    display: flex;
+    justify-items: center;
+    margin-top: 70px;
+  }
+  #heroImg{
+    width: 250px;
+
+  }
+  
+}
+
+@media screen and (max-width:600px) {
+  .studentHero{
+    flex-direction: column;
+    margin:30px auto;
+    justify-items: center;
+
+  }
 
 }

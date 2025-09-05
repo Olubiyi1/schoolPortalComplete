@@ -72,8 +72,7 @@ export const Dashboard = () => {
         </button>
         <button
           className={`nav-btn ${
-            activeSection === "Results" ? "active" : ""
-          }`}
+            activeSection === "Results" ? "active" : ""}`}
           onClick={() => handleSectionChange("Results")}
         >
          Result

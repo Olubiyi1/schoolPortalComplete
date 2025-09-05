@@ -3,7 +3,7 @@
   --color1: white;
   --font-size: 12px;
   --fontFamily1: "poppins";
-  --fontfamily2 : "Inter"
+  --fontfamily2: "Inter";
 }
 
 .main {
@@ -26,11 +26,16 @@
 .schoolName img {
   width: 50px;
 }
-.schoolName h1 {
-  font-size: 1rem;
+.schoolName .schoolNameDesktop {
+  font-size: 14px;
   text-transform: uppercase;
-  line-height: 18px;
-  margin-left: -6px;
+  line-height: 16px;
+}
+.schoolName .schoolNameMobile {
+  display: none;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 16px;
 }
 .links {
   display: flex;
@@ -69,4 +74,80 @@
   border: 1px solid var(--color1);
   border-radius: 5px;
   cursor: pointer;
+}
+
+div.main .hamburger {
+  display: none;
+  font-size: 40px;
+}
+
+.mobileMenu {
+  display: none;
+}
+
+.mobileMenu a {
+  text-decoration: none;
+  color: black;
+}
+.mobileMenu a:hover{
+  text-decoration: underline;
+  padding: none;
+  cursor: pointer;
+}
+
+/* media queries */
+
+@media screen and (max-width: 860px) {
+  .main {
+    padding: 0px;
+  }
+  .navs,
+  .links {
+    display: none;
+  }
+  div.main .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+  .main .schoolNameDesktop {
+    display: none;
+  }
+  .main .schoolNameMobile {
+    display: block;
+    font-size: 12px;
+    margin-left: -10px;
+  }
+
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+    top: 70px;
+    position: absolute;
+    width: 200px;
+    padding: 10px;
+    gap: 10px;
+    z-index: 999;
+    background-color: lightgray;
+    width: 100%;
+   }
+    .mobileMenu .btn {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;    /* center inside menu */
+  }
+
+  .mobileMenu a{
+    display: inline !important;
+    /* color: red; */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .links {
+    display: none;
+  }
+  .schoolName img {
+    width: 40px;
+    margin-right: 5px;
+  }
 }

@@ -6,7 +6,7 @@ import { registerUser } from "../../../Services/Api";
 type Department = "Electronics Works" | "RAC";
 
 type StudentFormData = {
-  firstName: string;
+  firstname: string;
   surname: string;
   username: string;
   email: string;
@@ -16,7 +16,7 @@ type StudentFormData = {
 };
 
 type Errors = {
-  firstName: string;
+  firstname: string;
   surname: string;
   username: string;
   email: string;
@@ -28,7 +28,7 @@ type Errors = {
 export const RegisterStudent = () => {
   // using just a single state to collect data
   const [formData, setFormdata] = useState<StudentFormData>({
-    firstName: "",
+    firstname: "",
     surname: "",
     username: "",
     email: "",
@@ -39,7 +39,7 @@ export const RegisterStudent = () => {
 
   // this sets the error messages
   const [errors, setErrors] = useState<Errors>({
-    firstName: "",
+    firstname: "",
     surname: "",
     username: "",
     email: "",
@@ -56,6 +56,11 @@ export const RegisterStudent = () => {
 
   //   to map the department array since i am not hardcoding and just want to map
   const departments: Department[] = ["Electronics Works", "RAC"];
+
+
+// to capture the email before it clears off
+  const [registeredEmail, setRegisteredEmail] = useState<string>("");
+
 
   // handle input/select changes since i am using a single useState
   // wouldnt have needed this if it had been individual useState for each input, the function would be inside the input
@@ -75,11 +80,11 @@ export const RegisterStudent = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { firstName, surname, username, email, password, confirmPassword } =
+    const { firstname, surname, username, email, password, confirmPassword } =
       formData;
 
     let newErrors: Errors = {
-      firstName: "",
+      firstname: "",
       surname: "",
       username: "",
       email: "",
@@ -90,8 +95,8 @@ export const RegisterStudent = () => {
 
     // validation checks
 
-    if (!firstName.trim()) {
-      newErrors.firstName = "First name is required";
+    if (!firstname.trim()) {
+      newErrors.firstname = "First name is required";
     }
     if (!surname.trim()) {
       newErrors.surname = "Surname is required";
@@ -113,11 +118,13 @@ export const RegisterStudent = () => {
       newErrors.email = "Enter a valid email";
     }
 
-    if (!password.trim()) {
-      newErrors.password = "Password is required";
-    } else if (password.length < 8) {
-      newErrors.password = "Password must be more than 8 characters";
-    }
+    if (!formData.password) {
+  newErrors.password = "Password is required";
+} else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(formData.password)) {
+  newErrors.password =
+    "Password must be at least 8 characters and include uppercase, lowercase, number, and special character";
+}
+
 
     if (!confirmPassword.trim()) {
       newErrors.confirmPassword = "Confirm password is required";
@@ -130,9 +137,12 @@ export const RegisterStudent = () => {
 
     setErrors(newErrors);
 
+    console.log("Submitting formData:", formData);
+console.log("Validation errors before submission:", newErrors);
+
     // Stop if any error message exists
     if (
-      newErrors.firstName ||
+      newErrors.firstname ||
       newErrors.surname ||
       newErrors.username ||
       newErrors.email ||
@@ -145,20 +155,23 @@ export const RegisterStudent = () => {
 
     // API call
     try {
+     
       // User clicks the button.This is set on the button
       setIsLoading(true);
 
-      // calls the API
-      // const response = await registerUser(formData);
-      // console.log(response);
 
-      console.log("Simulating successful registration");
+      // calls the API
+      const response = await registerUser(formData);
+      console.log(response);
+
+       setRegisteredEmail(formData.email);
+
 
       setIsRegistered(true);
 
       // reset form data if only signup is successful
       setFormdata({
-        firstName: "",
+        firstname: "",
         surname: "",
         username: "",
         email: "",
@@ -167,8 +180,9 @@ export const RegisterStudent = () => {
         confirmPassword: "",
       });
 
-      // send backed error message
+      // send backend error message
     } catch (error: any) {
+      console.log("API error",error)
       if (error.response?.data?.message) {
         alert(error.response.data.message);
       } else {
@@ -195,12 +209,12 @@ export const RegisterStudent = () => {
               <input
                 id="firstname"
                 type="text"
-                name="firstName"
+                name="firstname"
                 placeholder="Enter first name"
-                value={formData.firstName}
+                value={formData.firstname}
                 onChange={handleChange}
               />
-              {errors.firstName && <p className="error">{errors.firstName}</p>}
+              {errors.firstname && <p className="error">{errors.firstname}</p>}
 
               <label htmlFor="surname">Surname</label>
               <input
@@ -285,7 +299,7 @@ export const RegisterStudent = () => {
             <h1>Registration Successful!</h1>
             <p>
               We've sent a verification email to:
-              <strong>{formData.email}</strong>
+              <strong>{registeredEmail}</strong>
             </p>
             <p>Please check your inbox (and spam folder) for next steps.</p>
             <p>The email might take a few minutes to arrive.</p>

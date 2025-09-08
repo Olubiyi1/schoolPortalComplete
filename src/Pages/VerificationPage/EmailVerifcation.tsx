@@ -1,10 +1,8 @@
-
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import { verifyUserEmail } from "../../Services/Api";
 
 type VerficationStatus = "loading" | "success" | "error";
-
 
 export const EmailVerification = () => {
   const [searchParams] = useSearchParams();
@@ -14,44 +12,70 @@ export const EmailVerification = () => {
   const [message, setMessage] = useState<string>("");
   const navigate = useNavigate();
 
+  //this use ref tracks if verification was already attempted to avoid re-render cos of useEffect used here
+  const verificationAttempted = useRef(false);
+
+  // navigate function to route to student  login Page
+  const goToLogin = () => {
+    navigate("/studentLogin");
+  };
+
   useEffect(() => {
     checkVerificationToken();
   }, [token]);
 
-  const checkVerificationToken = () => {
+  // check verifcation token function
+  const checkVerificationToken = async () => {
+    // Prevent multiple calls using ref
+    if (verificationAttempted.current) {
+      return;
+    }
+
+    verificationAttempted.current = true;
+
     if (!token) {
       setStatus("error");
       setMessage("Invalid verification link or expired token");
       return;
     }
-    {
-      console.log("token found");
+
+    try {
+      console.log("Starting verification with token:", token);
+
+      const response = await verifyUserEmail(token);
+
       setStatus("success");
-      setMessage("Your account is now active");
+      setMessage("Email verified successfully! You can now login.");
+    } catch (error: any) {
+      setStatus("error");
+
+      if (error.response?.status === 400) {
+        setMessage("This verification link has expired or is invalid");
+      } else if (error.response?.status === 409) {
+        setMessage("This email is already verified");
+      } else if (error.response?.data?.message) {
+        setMessage(error.response.data.message);
+      } else {
+        setMessage("Something went wrong. Please try again");
+      }
     }
   };
-  const goToLogin = () => {
-    navigate("/studentLogin");
-  };
+
+
+  // resending verifcation code
+  
   const resendVerificationMail = () => {
     setIsResending(true);
-    console.log("resending verifcation mail");
+    console.log("resending verification mail");
 
-    // set time out is just to simulate how a delay like its connecting to the API. in production, it wont be used
     setTimeout(() => {
       setIsResending(false);
       alert("Verification mail resent, check your email");
     }, 2000);
   };
-  return (
-    // i have used tenary to replace logical AND &&.but must have a fallback of null to avoid error
-    // null be included as the fallback for it to work.
-    // there was no issue with the logical AND
-    <div>
-      {/* {status === "loading" && <p>Loading</p>}
-      {status === "success" && <p>Account verification successful</p>}
-      {status === "error" && <p>There was an error verifying your account</p>} */}
 
+  return (
+    <div>
       {status === "loading" ? (
         <div>
           <p>Wait while we verify your account</p>
@@ -61,7 +85,6 @@ export const EmailVerification = () => {
         <div>
           <p>{message}</p>
           <p>You can now login to your account</p>
-
           <button onClick={goToLogin}>Login Page</button>
         </div>
       ) : status === "error" ? (

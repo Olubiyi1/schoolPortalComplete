@@ -25,6 +25,8 @@ export const StudentLogin = () => {
     password: "",
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +40,12 @@ export const StudentLogin = () => {
   //   handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { email, password } = formData;
+
+    const payload = {
+      email: formData.email.toLowerCase().trim(),
+      password: formData.password.trim(),
+    };
+    const { email, password } = payload;
 
     let newErrors: Errors = {
       email: "",
@@ -47,16 +54,13 @@ export const StudentLogin = () => {
 
     // input vaidation
 
-    if (!email.trim()) {
+    if (!email) {
       newErrors.email = "Email field cannot be left blank";
     }
-    if (!password.trim()) {
+    if (!password) {
       newErrors.password = "Password field cannot be left blank";
     }
-    if(password.length < 8){
-      newErrors.password = "Password is incorrect"
-    }
-
+   
     setErrors(newErrors);
 
     // stop if any error message exists
@@ -65,8 +69,10 @@ export const StudentLogin = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      const response = await loginUser(formData);
+      const response = await loginUser(payload);
       console.log("Login succesful", response);
       // alert("Login successful");
 
@@ -85,9 +91,11 @@ export const StudentLogin = () => {
       } else {
         alert("Login failed. Please try again.");
       }
+    } finally {
+      setIsLoading(false);
     }
 
-    console.log("login successful", formData);
+    // console.log("login successful", formData);
     //   alert("login successful");
   };
 
@@ -117,9 +125,9 @@ export const StudentLogin = () => {
               onChange={handleChange}
             />
             {errors.password && <p className="error">{errors.password}</p>}
-
-            <Button type="submit" id="loginButton">
-              Login
+            
+            <Button type="submit" id="loginButton" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
           </form>
         </div>

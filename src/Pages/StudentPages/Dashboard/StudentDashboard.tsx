@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 type UserData = {
-  firstName: string;
+  firstname: string;
   surname: string;
   email: string;
   department: string;
@@ -16,7 +16,7 @@ export const Dashboard = () => {
   const [activeSection, setActiveSection] = useState<DashboardSection>("overview");
 
   const userData: UserData = {
-    firstName: "Babajide",
+    firstname: "Babajide",
     surname: "Olubiyi",
     email: "olubiyibabajide@gmail.com",
     department: "Electronics Works",
@@ -40,8 +40,10 @@ export const Dashboard = () => {
           </button>
         </div>
         <div className="welcome-message">
+
+          <h4>Hardcoded Infos just for testing</h4>
           <h2>
-            Welcome back, {userData.firstName} {userData.surname}!
+            Welcome back, {userData.firstname} {userData.surname}!
           </h2>
           <p>
             {userData.email} • {userData.department}
@@ -107,7 +109,7 @@ export const Dashboard = () => {
             <div className="dashboard-card">
               <h3>Profile Information</h3>
               <p>
-                <strong>Name:</strong> {userData.firstName} {userData.surname}
+                <strong>Name:</strong> {userData.firstname} {userData.surname}
               </p>
               <p>
                 <strong>Email:</strong> {userData.email}

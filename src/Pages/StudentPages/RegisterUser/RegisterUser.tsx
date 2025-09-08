@@ -57,9 +57,9 @@ export const RegisterStudent = () => {
   //   to map the department array since i am not hardcoding and just want to map
   const departments: Department[] = ["Electronics Works", "RAC"];
 
-
-// to capture the email before it clears off
+  // save email
   const [registeredEmail, setRegisteredEmail] = useState<string>("");
+
 
 
   // handle input/select changes since i am using a single useState
@@ -69,19 +69,32 @@ export const RegisterStudent = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+
     setFormdata((prev) => ({
       ...prev,
-      [name]: value,
-    }));
+      [name]: value
+    })); 
   };
 
-  // handle form submission
 
+
+  // handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+       // Trim all fields and lowercase email
+    const payload = {
+      firstname: formData.firstname.trim(),
+      surname: formData.surname.trim(),
+      username: formData.username.trim(),
+      email: formData.email.toLowerCase().trim(),
+      department: formData.department,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    };
+
     const { firstname, surname, username, email, password, confirmPassword } =
-      formData;
+      payload;
 
     let newErrors: Errors = {
       firstname: "",
@@ -161,13 +174,14 @@ console.log("Validation errors before submission:", newErrors);
 
 
       // calls the API
-      const response = await registerUser(formData);
+      const response = await registerUser(payload);
       console.log(response);
 
-       setRegisteredEmail(formData.email);
+    
 
 
       setIsRegistered(true);
+      setRegisteredEmail(formData.email); // keeps the original casing for UX cos its needed for the registration successful response
 
       // reset form data if only signup is successful
       setFormdata({
@@ -234,7 +248,7 @@ console.log("Validation errors before submission:", newErrors);
                 value={formData.department}
                 onChange={handleChange}
               >
-                <option value="">--Select--</option>
+                <option value="" disabled>--Select--</option>
                 {departments.map((dep) => (
                   <option key={dep} value={dep}>
                     {dep}

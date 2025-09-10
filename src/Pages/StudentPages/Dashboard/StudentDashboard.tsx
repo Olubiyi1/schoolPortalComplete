@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../../../Services/Api";
 import "./Dashboard.css";
 
 type UserData = {
-  firstname: string;
+  firstName: string;
   surname: string;
   email: string;
   department: string;
@@ -14,21 +15,68 @@ type DashboardSection = "overview" | "courses" | "profile" | "Results";
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<DashboardSection>("overview");
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
-  const userData: UserData = {
-    firstname: "Babajide",
-    surname: "Olubiyi",
-    email: "olubiyibabajide@gmail.com",
-    department: "Electronics Works",
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getCurrentUser();
+      setUserData(response.data); // Adjust based on your API response structure
+      setError("");
+    } catch (error: any) {
+      console.error("Error fetching user data:", error);
+      setError("Failed to load user data");
+      
+      // If authentication fails, redirect to login
+      if (error.response?.status === 401) {
+        navigate("/studentLogin");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLogout = (): void => {
+    // Clear any stored auth tokens here
+    localStorage.removeItem('authToken'); // if you're using tokens
     navigate("/studentLogin");
   };
 
   const handleSectionChange = (section: DashboardSection): void => {
     setActiveSection(section);
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading-message">
+          <h2>Loading your dashboard...</h2>
+          <p>Please wait while we fetch your information.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error || !userData) {
+    return (
+      <div className="dashboard-container">
+        <div className="error-message">
+          <h2>Error Loading Dashboard</h2>
+          <p>{error || "Unable to load user data"}</p>
+          <button onClick={fetchUserData}>Try Again</button>
+          <button onClick={handleLogout}>Back to Login</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-container">
@@ -40,10 +88,8 @@ export const Dashboard = () => {
           </button>
         </div>
         <div className="welcome-message">
-
-          <h4>Hardcoded Infos just for testing</h4>
           <h2>
-            Welcome back, {userData.firstname} {userData.surname}!
+            Welcome back, {userData.firstName} {userData.surname}!
           </h2>
           <p>
             {userData.email} • {userData.department}
@@ -73,11 +119,10 @@ export const Dashboard = () => {
           Profile
         </button>
         <button
-          className={`nav-btn ${
-            activeSection === "Results" ? "active" : ""}`}
+          className={`nav-btn ${activeSection === "Results" ? "active" : ""}`}
           onClick={() => handleSectionChange("Results")}
         >
-         Result
+         Results
         </button>
       </div>
 
@@ -85,8 +130,9 @@ export const Dashboard = () => {
         {activeSection === "overview" && (
           <div className="section-content">
             <div className="dashboard-card">
-              <h3>Quick Overview</h3>
+              <h3>Welcome, {userData.firstName}!</h3>
               <p>Your dashboard summary appears here.</p>
+              <p>Department: {userData.department}</p>
             </div>
           </div>
         )}
@@ -95,11 +141,8 @@ export const Dashboard = () => {
           <div className="section-content">
             <div className="dashboard-card">
               <h3>My Courses</h3>
-              <p>Mathematics</p>
-              <p>English Language</p>
-              <p>Physics</p>
-              <p>Chemistry</p>
-              <p>Entreprenuership</p>
+              <p>Loading your enrolled courses...</p>
+              {/* not dynamic yet */}
             </div>
           </div>
         )}
@@ -108,15 +151,9 @@ export const Dashboard = () => {
           <div className="section-content">
             <div className="dashboard-card">
               <h3>Profile Information</h3>
-              <p>
-                <strong>Name:</strong> {userData.firstname} {userData.surname}
-              </p>
-              <p>
-                <strong>Email:</strong> {userData.email}
-              </p>
-              <p>
-                <strong>Department:</strong> {userData.department}
-              </p>
+              <p><strong>Name:</strong> {userData.firstName} {userData.surname}</p>
+              <p><strong>Email:</strong> {userData.email}</p>
+              <p><strong>Department:</strong> {userData.department}</p>
             </div>
           </div>
         )}
@@ -124,7 +161,8 @@ export const Dashboard = () => {
         {activeSection === "Results" && (
           <div className="section-content">
             <div className="dashboard-card">
-              <h3>No results available</h3>
+              <h3>Academic Results</h3>
+              <p>No results available at this time.</p>
             </div>
           </div>
         )}

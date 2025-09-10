@@ -43,6 +43,20 @@ export const verifyUserEmail = async (token: string) => {
   return response.data;
 };
 
+// Add axios interceptor to include token in requests
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+// to get current user
+export const getCurrentUser = async () => {
+  const response = await axios.get(`${API_URL}/profile`);
+  return response.data;
+};
+
 // Additional functions for later use
 
 // export const forgotPassword = async (email: string) => {

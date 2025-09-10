@@ -60,7 +60,7 @@ export const StudentLogin = () => {
     if (!password) {
       newErrors.password = "Password field cannot be left blank";
     }
-   
+
     setErrors(newErrors);
 
     // stop if any error message exists
@@ -75,6 +75,9 @@ export const StudentLogin = () => {
       const response = await loginUser(payload);
       console.log("Login succesful", response);
       // alert("Login successful");
+
+      // Store the JWT token
+      localStorage.setItem("authToken", response.data);
 
       navigate("/dashboard");
 
@@ -125,7 +128,7 @@ export const StudentLogin = () => {
               onChange={handleChange}
             />
             {errors.password && <p className="error">{errors.password}</p>}
-            
+
             <Button type="submit" id="loginButton" disabled={isLoading}>
               {isLoading ? "Logging in..." : "Login"}
             </Button>

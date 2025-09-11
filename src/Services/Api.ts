@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // my backend repo
-const API_URL = "http://localhost:3300/api"; 
+const API_URL = "http://localhost:3300/api";
 
 // Types to match user inputs
 
@@ -20,41 +20,51 @@ type LoginData = {
   password: string;
 };
 
+// API responses
+type ApiResponse = {
+  status: string;
+  message: string;
+  data: any;
+};
 
 // register user
 export const registerUser = async (userData: RegisterData) => {
-
-    // removing confirm password from being sent to the backend
-    // it should only be used in the frontend to validate before sending to backend
-    const {confirmPassword,...otherInputs}=userData
+  // removing confirm password from being sent to the backend
+  // it should only be used in the frontend to validate before sending to backend
+  const { confirmPassword, ...otherInputs } = userData;
   const response = await axios.post(`${API_URL}/signup`, otherInputs);
-  return response.data;
+  return response.data as ApiResponse;
 };
 
 // login user
 export const loginUser = async (credentials: LoginData) => {
   const response = await axios.post(`${API_URL}/login`, credentials);
-  return response.data;
+  return response.data as ApiResponse;
 };
 
 // verify email
 export const verifyUserEmail = async (token: string) => {
   const response = await axios.get(`${API_URL}/verify-email?token=${token}`);
-  return response.data;
+  return response.data as ApiResponse;
 };
 
 // Add axios interceptor to include token in requests
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('authToken');
   if (token) {
+    // Ensure headers object exists
+    // config.headers = config.headers || {}; creates an empty headers object if it doesn't exist
+    config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
+
 // to get current user
 export const getCurrentUser = async () => {
+  const token = localStorage.getItem("authToken")
   const response = await axios.get(`${API_URL}/profile`);
-  return response.data;
+  return response.data as ApiResponse;
 };
 
 // Additional functions for later use

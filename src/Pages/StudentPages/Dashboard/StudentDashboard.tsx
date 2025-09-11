@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from "../../../Services/Api";
 import "./Dashboard.css";
@@ -14,25 +14,43 @@ type DashboardSection = "overview" | "courses" | "profile" | "Results";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState<DashboardSection>("overview");
+  const [activeSection, setActiveSection] =
+    useState<DashboardSection>("overview");
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+
+  //prevent duplicate calls
+  // repeated issues . page loads twice in succession thereby causing a bad request
+
+  const hasFetchedData = useRef(false);
 
   useEffect(() => {
     fetchUserData();
   }, []);
 
+  // fetch user data
   const fetchUserData = async () => {
+    // Prevent duplicate calls
+    if (hasFetchedData.current) {
+      console.log("Data already fetched, skipping");
+      return;
+    }
+
+    hasFetchedData.current = true;
+
     try {
       setIsLoading(true);
       const response = await getCurrentUser();
-      setUserData(response.data); // Adjust based on your API response structure
+
+      // This is based on my API response type in my App.ts
+      setUserData(response.data);
       setError("");
+      console.log("User data fetched successfully:", response);
     } catch (error: any) {
       console.error("Error fetching user data:", error);
       setError("Failed to load user data");
-      
+
       // If authentication fails, redirect to login
       if (error.response?.status === 401) {
         navigate("/studentLogin");
@@ -44,7 +62,7 @@ export const Dashboard = () => {
 
   const handleLogout = (): void => {
     // Clear any stored auth tokens here
-    localStorage.removeItem('authToken'); // if you're using tokens
+    localStorage.removeItem("authToken"); // if you're using tokens
     navigate("/studentLogin");
   };
 
@@ -111,7 +129,7 @@ export const Dashboard = () => {
         >
           Courses
         </button>
-        
+
         <button
           className={`nav-btn ${activeSection === "profile" ? "active" : ""}`}
           onClick={() => handleSectionChange("profile")}
@@ -122,7 +140,7 @@ export const Dashboard = () => {
           className={`nav-btn ${activeSection === "Results" ? "active" : ""}`}
           onClick={() => handleSectionChange("Results")}
         >
-         Results
+          Results
         </button>
       </div>
 
@@ -151,9 +169,15 @@ export const Dashboard = () => {
           <div className="section-content">
             <div className="dashboard-card">
               <h3>Profile Information</h3>
-              <p><strong>Name:</strong> {userData.firstName} {userData.surname}</p>
-              <p><strong>Email:</strong> {userData.email}</p>
-              <p><strong>Department:</strong> {userData.department}</p>
+              <p>
+                <strong>Name:</strong> {userData.firstName} {userData.surname}
+              </p>
+              <p>
+                <strong>Email:</strong> {userData.email}
+              </p>
+              <p>
+                <strong>Department:</strong> {userData.department}
+              </p>
             </div>
           </div>
         )}

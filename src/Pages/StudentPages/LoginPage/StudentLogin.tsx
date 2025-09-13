@@ -4,6 +4,7 @@ import Button from "../../../Reuseable/ButtonProps/ButtonProps";
 import "./StudentLogin.css";
 import { loginUser } from "../../../Services/Api";
 import { useNavigate } from "react-router";
+import { extractErrorMessage } from "../../../utils/errorHandlers";
 
 type LoginData = {
   email: string;
@@ -88,13 +89,12 @@ export const StudentLogin = () => {
       });
 
       // sends backend error message if any in the if statement
-    } catch (error: any) {
-      if (error.response?.data?.message) {
-        alert(error.response.data.message);
-      } else {
-        alert("Login failed. Please try again.");
-      }
-    } finally {
+    
+    } catch(error){
+      const errorMessage = extractErrorMessage(error)
+      alert(errorMessage)
+    }
+    finally {
       setIsLoading(false);
     }
 

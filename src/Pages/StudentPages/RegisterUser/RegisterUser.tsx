@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import studentHeroImg from "../../../assets/images/studentHeroImg.png";
 import "./Register.css";
 import { registerUser } from "../../../Services/Api";
+import { extractErrorMessage } from "../../../utils/errorHandlers";
 
 type Department = "Electronics Works" | "RAC";
 
@@ -75,9 +76,7 @@ export const RegisterStudent = () => {
       [name]: value
     })); 
   };
-
-
-
+  
   // handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -195,14 +194,10 @@ console.log("Validation errors before submission:", newErrors);
       });
 
       // send backend error message
-    } catch (error: any) {
-      console.log("API error",error)
-      if (error.response?.data?.message) {
-        alert(error.response.data.message);
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
-
+    } catch (error) {
+      const errorMessage = extractErrorMessage(error)
+      alert(errorMessage)
+  
       // stops loading whether success or error
     } finally {
       setIsLoading(false);

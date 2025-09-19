@@ -39,17 +39,13 @@ export const Header = () => {
           </Button>
         </Link>
 
+      <Link to="/AdminLogin">
         <Button type="submit" className="btn" id="staff">
           Staff
-        </Button>
+        </Button></Link>
+      
       </div>
-      {/* 
-      <MenuIcon className="hamburger" />
-      <CloseIcon className="closeIcon" />  */}
 
-      <div className="hamburger" onClick={toggleMenu}>
-        {isOpen ? <CloseIcon /> : <MenuIcon />}
-      </div>
 
       {/* mobile link */}
       {isOpen && (
@@ -68,9 +64,12 @@ export const Header = () => {
               Student
             </Button>
           </Link>
+
+          <Link to={"/AdminHomepage"}>
           <Button type="submit" className="btn" id="staff" onClick={toggleMenu}>
             Staff
-          </Button>
+          </Button></Link>
+          
         </div>
       )}
     </div>

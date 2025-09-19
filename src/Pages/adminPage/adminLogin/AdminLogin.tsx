@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import studentHeroImg from "../../../assets/images/studentHeroImg.png";
+import React, { useState } from "react";
 import Button from "../../../Reuseable/ButtonProps/ButtonProps";
-import "./StudentLogin.css";
-import { loginUser } from "../../../Services/Api";
+import { admLogin } from "../../../Services/Api";
 import { useNavigate } from "react-router";
 import { extractErrorMessage } from "../../../utils/errorHandlers";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
+import "./adminLogin.css"
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
+import Visibility from '@mui/icons-material/Visibility'
+// import { adminDashboard } from "../adminDashboard/adminDashboard";
 
 type LoginData = {
   email: string;
@@ -18,7 +18,7 @@ type Errors = {
   password: string;
 };
 
-export const StudentLogin = () => {
+export const AdminLogin = () => {
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -30,6 +30,7 @@ export const StudentLogin = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,6 @@ export const StudentLogin = () => {
     }));
   };
 
-  //   handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -55,59 +55,48 @@ export const StudentLogin = () => {
       password: "",
     };
 
-    // input vaidation
-
     if (!email) {
-      newErrors.email = "Email field cannot be left blank";
+      newErrors.email = "Email field is required";
     }
+
     if (!password) {
-      newErrors.password = "Password field cannot be left blank";
+      newErrors.password = "Password field is required";
     }
 
     setErrors(newErrors);
-
-    // stop if any error message exists
 
     if (newErrors.email || newErrors.password) {
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      const response = await loginUser(payload);
-      console.log("Login succesful", response);
-      // alert("Login successful");
+      const response = await admLogin(payload);
+      console.log("admin logged in successfully", response);
 
-      // Store the JWT token
+      // store jwt token
+
       localStorage.setItem("authToken", response.data);
 
-      navigate("/dashboard");
+      navigate("/adminDashboard");
 
-      // set the form back to empty. the form resets only if login is successful
       setFormData({
         email: "",
         password: "",
       });
-
-      // sends backend error message if any in the if statement
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = extractErrorMessage(error);
       alert(errorMessage);
     } finally {
       setIsLoading(false);
     }
-
-    // console.log("login successful", formData);
-    //   alert("login successful");
   };
 
   return (
     <div className="login">
-      <img src={studentHeroImg} alt="img" id="loginImg" />
+  
 
       <div className="formDetails">
-        <h1>Login</h1>
+        <h1>ADMIN LOGIN</h1>
 
         <div className="formData">
           <form action="" onSubmit={handleSubmit} className="loginInfo">
@@ -119,7 +108,7 @@ export const StudentLogin = () => {
               onChange={handleChange}
             />
             {errors.email && <p className="error">{errors.email}</p>}
-            
+
             <input
               // toggle between text and password
               type={showPassword ? "text" : "password"}
@@ -128,17 +117,13 @@ export const StudentLogin = () => {
               value={formData.password}
               onChange={handleChange}
             />
-            <button
-              id="toggleButton"
+            <button id="toggleButton"
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? (
-                <VisibilityOffIcon className="icons" />
-              ) : (
-                <Visibility className="icons" />
-              )}
+              {showPassword ? <VisibilityOffIcon className= "icons"/> : <Visibility className= "icons" />}
             </button>
+
             {errors.password && <p className="error">{errors.password}</p>}
 
             <Button type="submit" id="loginButton" disabled={isLoading}>

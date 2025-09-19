@@ -4,7 +4,9 @@ import "./Register.css";
 import { registerUser } from "../../../Services/Api";
 import { extractErrorMessage } from "../../../utils/errorHandlers";
 
+
 type Department = "Electronics Works" | "RAC";
+type Level = "Tech 1" | "Tech 2" | "Tech 3";
 
 type StudentFormData = {
   firstname: string;
@@ -13,6 +15,7 @@ type StudentFormData = {
   email: string;
   department: string;
   password: string;
+  level: string;
   confirmPassword: string;
 };
 
@@ -23,6 +26,7 @@ type Errors = {
   email: string;
   password: string;
   department: string;
+  level: string;
   confirmPassword: string;
 };
 
@@ -35,6 +39,7 @@ export const RegisterStudent = () => {
     email: "",
     department: "",
     password: "",
+    level: "",
     confirmPassword: "",
   });
 
@@ -46,6 +51,7 @@ export const RegisterStudent = () => {
     email: "",
     password: "",
     department: "",
+    level: "",
     confirmPassword: "",
   });
 
@@ -57,11 +63,10 @@ export const RegisterStudent = () => {
 
   //   to map the department array since i am not hardcoding and just want to map
   const departments: Department[] = ["Electronics Works", "RAC"];
+  const levels: Level[] = ["Tech 1", "Tech 2", "Tech 3"];
 
   // save email
   const [registeredEmail, setRegisteredEmail] = useState<string>("");
-
-
 
   // handle input/select changes since i am using a single useState
   // wouldnt have needed this if it had been individual useState for each input, the function would be inside the input
@@ -73,15 +78,15 @@ export const RegisterStudent = () => {
 
     setFormdata((prev) => ({
       ...prev,
-      [name]: value
-    })); 
+      [name]: value,
+    }));
   };
-  
+
   // handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-       // Trim all fields and lowercase email
+    // Trim all fields and lowercase email
     const payload = {
       firstname: formData.firstname.trim(),
       surname: formData.surname.trim(),
@@ -89,11 +94,20 @@ export const RegisterStudent = () => {
       email: formData.email.toLowerCase().trim(),
       department: formData.department,
       password: formData.password,
-      confirmPassword: formData.confirmPassword,
+      level: formData.level,
+      confirmPassword: formData.confirmPassword
     };
 
-    const { firstname, surname, username, email, password, confirmPassword } =
-      payload;
+    const {
+      firstname,
+      surname,
+      username,
+      email,
+      password,
+      confirmPassword,
+      level,
+      department
+    } = payload;
 
     let newErrors: Errors = {
       firstname: "",
@@ -101,7 +115,8 @@ export const RegisterStudent = () => {
       username: "",
       email: "",
       password: "",
-      department:"",
+      department: "",
+      level: "",
       confirmPassword: "",
     };
 
@@ -131,26 +146,32 @@ export const RegisterStudent = () => {
     }
 
     if (!formData.password) {
-  newErrors.password = "Password is required";
-} else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(formData.password)) {
-  newErrors.password =
-    "Password must be at least 8 characters and include uppercase, lowercase, number, and special character";
-}
-
+      newErrors.password = "Password is required";
+    } else if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(
+        formData.password
+      )
+    ) {
+      newErrors.password =
+        "Password must be at least 8 characters and include uppercase, lowercase, number, and special character";
+    }
 
     if (!confirmPassword.trim()) {
       newErrors.confirmPassword = "Confirm password is required";
     } else if (confirmPassword !== password) {
       newErrors.confirmPassword = "Password does not match";
     }
-    if(!formData.department){
-      newErrors.department = "Please select a department"
+    if (!formData.department) {
+      newErrors.department = "Please select a department";
+    }
+    if (!formData.level) {
+      newErrors.level = "Please select your level";
     }
 
     setErrors(newErrors);
 
     console.log("Submitting formData:", formData);
-console.log("Validation errors before submission:", newErrors);
+    console.log("Validation errors before submission:", newErrors);
 
     // Stop if any error message exists
     if (
@@ -160,6 +181,7 @@ console.log("Validation errors before submission:", newErrors);
       newErrors.email ||
       newErrors.password ||
       newErrors.confirmPassword ||
+      newErrors.level ||
       newErrors.department
     ) {
       return;
@@ -167,17 +189,12 @@ console.log("Validation errors before submission:", newErrors);
 
     // API call
     try {
-     
       // User clicks the button.This is set on the button
       setIsLoading(true);
-
 
       // calls the API
       const response = await registerUser(payload);
       console.log(response);
-
-    
-
 
       setIsRegistered(true);
       setRegisteredEmail(formData.email); // keeps the original casing for UX cos its needed for the registration successful response
@@ -190,14 +207,15 @@ console.log("Validation errors before submission:", newErrors);
         email: "",
         department: "",
         password: "",
+        level: "",
         confirmPassword: "",
       });
 
       // send backend error message
     } catch (error) {
-      const errorMessage = extractErrorMessage(error)
-      alert(errorMessage)
-  
+      const errorMessage = extractErrorMessage(error);
+      alert(errorMessage);
+
       // stops loading whether success or error
     } finally {
       setIsLoading(false);
@@ -243,14 +261,36 @@ console.log("Validation errors before submission:", newErrors);
                 value={formData.department}
                 onChange={handleChange}
               >
-                <option value="" disabled>--Select--</option>
+                <option value="" disabled>
+                  --Select--
+                </option>
                 {departments.map((dep) => (
                   <option key={dep} value={dep}>
                     {dep}
                   </option>
                 ))}
               </select>
-              {errors.department && <p className="error">{errors.department}</p>}
+              {errors.department && (
+                <p className="error">{errors.department}</p>
+              )}
+
+              <label htmlFor="level">Select level</label>
+              <select
+                name="level"
+                id="level"
+                value={formData.level}
+                onChange={handleChange}
+              >
+                <option value="" disabled>
+                  --Select--
+                </option>
+                {levels.map((lev) => (
+                  <option key={lev} value={lev}>
+                    {lev}
+                  </option>
+                ))}
+              </select>
+              {errors.level && <p className="error">{errors.level}</p>}
 
               <label htmlFor="username">Username</label>
               <input

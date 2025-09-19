@@ -1,0 +1,15 @@
+
+div{
+    position: relative;
+}
+#toggleButton{
+    /* background-color: red; */
+    border: 0px;
+    position: absolute;
+    top: 79px;
+    right: 10px;
+}
+.icons{
+    font-size:15px !important ;
+    background-color: white;
+}

@@ -36,17 +36,26 @@ export const registerUser = async (userData: RegisterData) => {
   return response.data as ApiResponse;
 };
 
+// verify email
+export const verifyUserEmail = async (token: string) => {
+  const response = await axios.get(`${API_URL}/verify-email?token=${token}`);
+  return response.data as ApiResponse;
+};
+
 // login user
 export const loginUser = async (credentials: LoginData) => {
   const response = await axios.post(`${API_URL}/login`, credentials);
   return response.data as ApiResponse;
 };
 
-// verify email
-export const verifyUserEmail = async (token: string) => {
-  const response = await axios.get(`${API_URL}/verify-email?token=${token}`);
-  return response.data as ApiResponse;
-};
+// admin login
+
+export const admLogin = async(credentials: LoginData)=>{
+  const response = await axios.post(`${API_URL}/admin/login`, credentials);
+  return response.data as ApiResponse
+}
+
+
 
 // Add axios interceptor to include token in requests
 axios.interceptors.request.use((config) => {

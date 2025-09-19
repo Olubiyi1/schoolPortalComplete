@@ -8,6 +8,8 @@ type UserData = {
   surname: string;
   email: string;
   department: string;
+  level: string;
+  // semester:string
 };
 
 type DashboardSection = "overview" | "courses" | "profile" | "Results";
@@ -158,8 +160,8 @@ export const Dashboard = () => {
         {activeSection === "courses" && (
           <div className="section-content">
             <div className="dashboard-card">
-              <h3>My Courses</h3>
-              <p>Loading your enrolled courses...</p>
+              <h3>My Courses : {userData.level}</h3>
+              <p>Department: {userData.department}</p>
               {/* not dynamic yet */}
             </div>
           </div>

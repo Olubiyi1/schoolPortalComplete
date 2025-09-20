@@ -119,7 +119,7 @@ export const StudentLogin = () => {
               onChange={handleChange}
             />
             {errors.email && <p className="error">{errors.email}</p>}
-            
+
             <input
               // toggle between text and password
               type={showPassword ? "text" : "password"}
@@ -133,10 +133,7 @@ export const StudentLogin = () => {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? (
-                <VisibilityOffIcon className="icons" />
-              ) : (
-                <Visibility className="icons" />
+              {showPassword ? (<VisibilityOffIcon className="icons" />) : (<Visibility className="icons" />
               )}
             </button>
             {errors.password && <p className="error">{errors.password}</p>}

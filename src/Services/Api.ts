@@ -27,6 +27,14 @@ type ApiResponse = {
   data: any;
 };
 
+type CourseData={
+  code:string,
+  title:string,
+  level:string,
+  department:string,
+  semester:string
+}
+
 // register user
 export const registerUser = async (userData: RegisterData) => {
   // removing confirm password from being sent to the backend
@@ -66,7 +74,7 @@ axios.interceptors.request.use((config) => {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
-  return config;
+  return config;``
 });
 
 // to get current user
@@ -74,6 +82,35 @@ export const getCurrentUser = async () => {
   const token = localStorage.getItem("authToken")
   const response = await axios.get(`${API_URL}/profile`);
   return response.data as ApiResponse;
+};
+
+// Add course (admin only)
+// Add course (admin only)
+export const addCourse = async (courseData: CourseData) => {
+  // Make sure admin token is being sent
+  const token = localStorage.getItem('adminToken');
+  
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  };
+
+  const response = await axios.post(`${API_URL}/courses/add-courses`, courseData, config);
+  return response.data as ApiResponse;
+};
+
+
+export const getStudentCourses = async () => {
+  const token = localStorage.getItem("authToken"); // or studentToken
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(`${API_URL}/courses/all`, config);
+  return response.data;
 };
 
 // Additional functions for later use

@@ -39,11 +39,18 @@ export const Header = () => {
           </Button>
         </Link>
 
-      <Link to="/AdminLogin">
-        <Button type="submit" className="btn" id="staff">
-          Staff
-        </Button></Link>
+        <Link to="/AdminLogin">
+          <Button type="submit" className="btn" id="staff">
+            Staff
+          </Button>
+        </Link>
+
+        
+      </div>
       
+       {/* hamburger icon (mobile only) */}
+      <div className="hamburger" onClick={toggleMenu}>
+        {isOpen ? <CloseIcon /> : <MenuIcon />}
       </div>
 
 
@@ -66,10 +73,15 @@ export const Header = () => {
           </Link>
 
           <Link to={"/AdminHomepage"}>
-          <Button type="submit" className="btn" id="staff" onClick={toggleMenu}>
-            Staff
-          </Button></Link>
-          
+            <Button
+              type="submit"
+              className="btn"
+              id="staff"
+              onClick={toggleMenu}
+            >
+              Staff
+            </Button>
+          </Link>
         </div>
       )}
     </div>

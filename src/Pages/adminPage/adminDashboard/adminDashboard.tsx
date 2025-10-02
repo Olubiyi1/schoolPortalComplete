@@ -23,9 +23,11 @@ type CourseErrors = {
   general: string;
 };
 
-
 export const AdminDashboard = () => {
   const navigate = useNavigate();
+   // is loading state
+  const [isLoadingCourses, setIsLoadingCourses] = useState<boolean>(false);
+
   const [activeSection, setActiveSection] =
     useState<DashboardSection>("overview");
 
@@ -37,6 +39,17 @@ export const AdminDashboard = () => {
     level: "",
     semester: "",
   });
+
+ 
+
+  // all courses state
+  const [allCourses, setAllCourses] = useState<CourseData>({
+     code: "",
+    title: "",
+    department: "",
+    level: "",
+    semester: "",
+  })
 
   const [courseErrors, setCourseErrors] = useState<CourseErrors>({
     code: "",

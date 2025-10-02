@@ -12,7 +12,7 @@ type RegisterData = {
   email: string;
   department: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword: string;  
 };
 
 type LoginData = {
@@ -36,6 +36,7 @@ type CourseData={
 }
 
 // register user
+
 export const registerUser = async (userData: RegisterData) => {
   // removing confirm password from being sent to the backend
   // it should only be used in the frontend to validate before sending to backend

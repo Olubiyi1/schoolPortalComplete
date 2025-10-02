@@ -73,7 +73,7 @@ export const Header = () => {
             </Button>
           </Link>
 
-          <Link to={"/AdminHomepage"}>
+          <Link to={"/adminLogin"}>
             <Button
               type="submit"
               className="btn"

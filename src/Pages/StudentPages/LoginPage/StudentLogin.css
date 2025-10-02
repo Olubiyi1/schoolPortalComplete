@@ -33,9 +33,6 @@
   right: 40px;
 }
 
-.formDetails h1 {
-  text-shadow: 1px 0px 1px rgba(232, 38, 38, 0.6);
-}
 .formDetails input {
   border: none;
   cursor: pointer;
@@ -47,12 +44,6 @@
   font-family: var(--fontFamily1);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
-/* .formDetails input:focus {
-  outline: none;
-  background-color: var(--bgColor);
-  color: var(--color1);
-} */
 
 .formDetails input:nth-child(2) {
   margin: 15px 0px;

@@ -46,12 +46,6 @@
   width: 250px;
 
 }
-.studentHero h1 {
-  letter-spacing: 3px;
-text-shadow: 1px 0px 1px rgba(232,38,38,0.6);
-  
-  /* border-bottom: 2px solid; */
-}
 
 .studentLogin {
   background-color: var(--color1);

@@ -25,6 +25,12 @@
   align-items: center;
   /* margin-right: 50px; */
   width: 300px;
+  position: relative;
+}
+.formDetails .studentIcons{
+   position: absolute;
+  top: 116px;
+  right: 40px;
 }
 
 .formDetails h1 {

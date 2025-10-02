@@ -6,6 +6,7 @@ import { extractErrorMessage } from "../../../utils/errorHandlers";
 import "./adminLogin.css"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import Visibility from '@mui/icons-material/Visibility'
+import adminLogo from "../../../assets/images/adminLogo.png"
 // import { adminDashboard } from "../adminDashboard/adminDashboard";
 
 type LoginData = {
@@ -92,7 +93,9 @@ export const AdminLogin = () => {
   };
 
   return (
-    <div className="login">
+    <div className="adminLogin">
+
+      <img src={adminLogo} alt="img" id="loginImg"/>
   
 
       <div className="formDetails">
@@ -121,7 +124,7 @@ export const AdminLogin = () => {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <VisibilityOffIcon className= "icons"/> : <Visibility className= "icons" />}
+              {showPassword ? <VisibilityOffIcon className= "adminIcons"/> : <Visibility className= "adminIcons" />}
             </button>
 
             {errors.password && <p className="error">{errors.password}</p>}

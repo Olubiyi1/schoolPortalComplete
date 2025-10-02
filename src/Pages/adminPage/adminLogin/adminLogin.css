@@ -1,15 +1,66 @@
+:root {
+  --bgColor: black;
+  --color1: white;
+  --font-size: 12px;
+  --fontFamily1: "poppins";
+  --fontfamily2: "Inter";
+}
+.adminLogin {
+  background-color: var(--color1);
+  display: flex;
+  width: max-content;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--fontfamily2);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin: auto;
+  margin-top: 20px;
+}
+.adminLogin #loginImg {
+  width: 400px;
+}
 
-div{
-    position: relative;
+.adminLogin .formDetails{
+  position: relative;
+
 }
-#toggleButton{
-    /* background-color: red; */
-    border: 0px;
-    position: absolute;
-    top: 79px;
-    right: 10px;
+.adminLogin #loginButton {
+  background-color: var(--bgColor);
+  cursor: pointer;
+  color: var(--color1);
+  padding: 15px;
+  width: 250px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border: 1.5px solid;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-.icons{
-    font-size:15px !important ;
-    background-color: white;
+.adminIcons{
+  position: absolute;
+  top: 116px;
+  right: 40px;
 }
+
+
+@media screen and (max-width: 860px) {
+  .adminLogin{
+    display: flex;
+    /* justify-items: center; */
+    align-content: center;
+    margin-top: 70px;
+  }
+  .adminLogin #loginImg{
+    width: 250px;
+  }  
+}
+
+@media screen and (max-width:600px) {
+  .adminLogin{
+    flex-direction: column;
+    margin:30px auto;
+    justify-items: center;
+    align-items: center;
+  }
+}
+

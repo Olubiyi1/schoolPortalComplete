@@ -10,6 +10,7 @@ import { Academics } from "../Pages/AcademicsPage/Academics";
 import { EmailVerification } from "../Pages/VerificationPage/EmailVerifcation";
 import { Dashboard } from "../Pages/StudentPages/Dashboard/StudentDashboard"
 import { AdminDashboard } from "../Pages/adminPage/adminDashboard/adminDashboard";
+// import { AdminLogin } from "../Pages/adminPage/adminLogin/AdminLogin";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
             {path: "verify-email", element:<EmailVerification/>},
             {path:"dashboard", element:<Dashboard/>},
             {path:"adminDashboard", element:<AdminDashboard/>}
+            
         ]
     }
 ])

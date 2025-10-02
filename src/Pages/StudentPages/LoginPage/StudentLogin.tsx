@@ -133,7 +133,7 @@ export const StudentLogin = () => {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? (<VisibilityOffIcon className="icons" />) : (<Visibility className="icons" />
+              {showPassword ? (<VisibilityOffIcon className="studentIcons" />) : (<Visibility className="studentIcons" />
               )}
             </button>
             {errors.password && <p className="error">{errors.password}</p>}
